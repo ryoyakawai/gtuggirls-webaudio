@@ -48,6 +48,7 @@
     </div>
     
     <p class="js-frame">
+      <span class="filename"></span>
       <span id="iframe-content"></span>
       <paper-shadow z="1"></paper-shadow>
     </p>
@@ -112,10 +113,10 @@
     function updateIframeSize() {
         var bezel=0.1 * window.innerWidth / 2;
         if(document.querySelector("div.prettyprint")!=null) {
-            document.querySelector("div.prettyprint").style.setProperty("height", (getframeHeight()-85)+"px");
+            document.querySelector("div.prettyprint").style.setProperty("height", (getframeHeight()-102)+"px");
         }
         if(document.querySelector("#iframec")!=null) {
-            document.querySelector("#iframec").style.setProperty("height", (getframeHeight()-30)+"px");
+            document.querySelector("#iframec").style.setProperty("height", (getframeHeight()-43)+"px");
             document.querySelector("#iframec").style.setProperty("width", (window.innerWidth-2*bezel-28)+"px");
         }
     }
@@ -164,6 +165,7 @@
         elem.innerHTML="";
         elem.appendChild(tmpifc);
         activeFab("fab-apps");
+        document.querySelector(".filename").innerText=pages[dispNow][0];
     });
     document.getElementById("fab-create").addEventListener("click", function(event){
         if(dispNow===false) {
@@ -175,6 +177,7 @@
         elem.innerHTML="";
         loadFile(url, elem);
         activeFab("fab-create");
+        document.querySelector(".filename").innerText=pages[dispNow][0].replace("comp.", "");
     });
     document.getElementById("fab-visibility").addEventListener("click", function(event){
         if(dispNow===false) {
@@ -186,6 +189,7 @@
         elem.innerHTML="";
         loadFile(url, elem);
         activeFab("fab-visibility");
+        document.querySelector(".filename").innerText=pages[dispNow][0];
     });
 
     function loadFile(url, elem) {
@@ -265,6 +269,7 @@
             tmpifc=iframe;
             activeFab("fab-apps");
             
+            document.querySelector(".filename").innerText=pages[dispNow][0];
 
             var ifc=document.getElementById("iframe-content");
             ifc.style.setProperty("opacity", "0");
