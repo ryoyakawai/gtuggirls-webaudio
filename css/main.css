@@ -117,7 +117,7 @@ paper-button.hover:hover {
 
 
 div.prettyprint {
-  padding:60px 20px 20px 20px;
+  padding:0px 20px 20px 20px;
   height:100px;
   overflow:scroll;
 }
