@@ -59,6 +59,7 @@
     var bt=false; // begining transition
     var tmpifc;
     var dispNow=false;
+    var githubUrl="https://github.com/ryoyakawai/gtuggirls-webaudio/blob/gh-pages/tutorials/";
 
     window.onload=function(){
         prettyPrint();
@@ -113,10 +114,10 @@
     function updateIframeSize() {
         var bezel=0.1 * window.innerWidth / 2;
         if(document.querySelector("div.prettyprint")!=null) {
-            document.querySelector("div.prettyprint").style.setProperty("height", (getframeHeight()-102)+"px");
+            document.querySelector("div.prettyprint").style.setProperty("height", (getframeHeight()-122)+"px");
         }
         if(document.querySelector("#iframec")!=null) {
-            document.querySelector("#iframec").style.setProperty("height", (getframeHeight()-43)+"px");
+            document.querySelector("#iframec").style.setProperty("height", (getframeHeight()-63)+"px");
             document.querySelector("#iframec").style.setProperty("width", (window.innerWidth-2*bezel-28)+"px");
         }
     }
@@ -165,7 +166,7 @@
         elem.innerHTML="";
         elem.appendChild(tmpifc);
         activeFab("fab-apps");
-        document.querySelector(".filename").innerText=pages[dispNow][0];
+        document.querySelector(".filename").appendChild(getGithubElem(true));
     });
     document.getElementById("fab-create").addEventListener("click", function(event){
         if(dispNow===false) {
@@ -177,7 +178,7 @@
         elem.innerHTML="";
         loadFile(url, elem);
         activeFab("fab-create");
-        document.querySelector(".filename").innerText=pages[dispNow][0].replace("comp.", "");
+        document.querySelector(".filename").appendChild(getGithubElem(false));
     });
     document.getElementById("fab-visibility").addEventListener("click", function(event){
         if(dispNow===false) {
@@ -189,7 +190,7 @@
         elem.innerHTML="";
         loadFile(url, elem);
         activeFab("fab-visibility");
-        document.querySelector(".filename").innerText=pages[dispNow][0];
+        document.querySelector(".filename").appendChild(getGithubElem(true));
     });
 
     function loadFile(url, elem) {
@@ -270,7 +271,7 @@
             tmpifc=iframe;
             activeFab("fab-apps");
             
-            document.querySelector(".filename").innerText=pages[dispNow][0];
+            document.querySelector(".filename").appendChild(getGithubElem(true));
 
             var ifc=document.getElementById("iframe-content");
             ifc.style.setProperty("opacity", "0");
@@ -281,6 +282,22 @@
                 updateIframeSize();
             }, 300);
         });
+    }
+    function getGithubElem(comp) {
+        var ah=document.createElement("a");
+        if(comp==true) {
+            ah.href=githubUrl+pages[dispNow][0];
+        } else {
+            ah.href=githubUrl+pages[dispNow][0].replace("comp.", "");
+        }
+        ah.target="_blank";
+        document.querySelector(".filename").innerHTML="";
+        var img=document.createElement("img");
+        img.src="./images/github.png";
+        img.setAttribute("height", "25px");
+        img.style.setProperty("margin", "5px");
+        ah.appendChild(img);
+        return ah;
     }
 
     </script>
