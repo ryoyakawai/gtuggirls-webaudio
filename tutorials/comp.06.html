@@ -32,7 +32,7 @@
         req.responseType = "arraybuffer";
         req.onload = function() {
             if(req.response) {
-                //          buffer = ctx.createBuffer(req.response, false);
+                //buffer = ctx.createBuffer(req.response, false);
                 ctx.decodeAudioData(req.response,function(b){buffer=b;},function(){});
             } else {
                 buffer = ctx.createBuffer(VBArray(req.responseBody).toArray(), false);

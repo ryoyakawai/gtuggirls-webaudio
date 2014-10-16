@@ -60,11 +60,13 @@
         var req = new XMLHttpRequest();
         req.open("GET", url, true);
         req.responseType = "arraybuffer";
-        req.onload = function () {
-            if(req.response)
-            buffer = ctx.createBuffer(req.response, false);
-            else
-            buffer = ctx.createBuffer(VBArray(req.responseBody).toArray(), false);
+        req.onload = function() {
+            if(req.response) {
+                //buffer = ctx.createBuffer(req.response, false);
+                ctx.decodeAudioData(req.response,function(b){buffer=b;},function(){});
+            } else {
+                buffer = ctx.createBuffer(VBArray(req.responseBody).toArray(), false);
+            }
         }
         req.send();
     }
