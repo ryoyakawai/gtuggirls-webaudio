@@ -5,6 +5,8 @@
     <h1>Analyser</h1>
     <button onclick="Play()">Play</button><br/>
     <button onclick="Stop()">Stop</button><br/>
+    <br>
+    <button onclick="Mic()">Mic</button><br/>
     <table>
       <tr><td>Frequency/TimeDomain : </td><td><select id="mode" onchange="Setup()"><option>Frequency</option><option>TimeDomain</option></select></td></tr>
       <tr><td>SmoothingTimeConstant : </td><td><input type="text" id="smoothing" value="0.9" onchange="Setup()"/></td></tr>
@@ -20,6 +22,12 @@
     var audioctx = new webkitAudioContext();
     else if(typeof(AudioContext)!=="undefined")
     var audioctx = new AudioContext();
+    
+    getUserMedia = navigator.getUserMedia ? 'getUserMedia' :
+                   navigator.webkitGetUserMedia ? 'webkitGetUserMedia' :
+                   navigator.mozGetUserMedia ? 'mozGetUserMedia' :
+                   navigator.msGetUserMedia ? 'msGetUserMedia' :
+                   undefined;
     
     var buffer = null;
     LoadSample(audioctx, "./contents/loop.wav");
@@ -57,6 +65,20 @@
             src.start(0);
     }
     
+    var stream;
+    function Mic() {
+        navigator[getUserMedia](
+            {audio:true},
+            function(stream) {
+                stream=stream;
+                src=audioctx.createMediaStreamSource(stream);
+                src.connect(audioctx.destination);
+                src.connect(analyser);
+            },
+            function(e) { console.error(e); }
+        );
+    }
+
     function LoadSample(ctx, url) {
         var req = new XMLHttpRequest();
         req.open("GET", url, true);
