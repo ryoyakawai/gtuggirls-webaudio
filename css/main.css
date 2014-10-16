@@ -151,7 +151,7 @@ div.prettyprint {
 .boxshadow {
   box-shadow:0 2px 5px 0 rgba(0, 0, 0, 0.26);
 }
-.filename { 
+.filename {  
   font-family: monospace, sans-serif;
-  padding:5px;
+  padding:0px 5px 0px 5px;
 }
