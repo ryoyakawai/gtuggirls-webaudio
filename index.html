@@ -193,6 +193,7 @@
     });
 
     function loadFile(url, elem) {
+        console.log(url);
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
         xhr.onreadystatechange = function(){
@@ -204,7 +205,7 @@
                 var out=[];
                 for(var i=0; i<data.length; i++) {
                     //console.log(data[i].match(/<body>/));
-                    if(data[i].match(/<body>/)!=null) sb=true;
+                    if(data[i].match(/<body/)!=null) sb=true;
                     if(data[i].match(/<\/body>/)!=null) sb=false;
                     if(sb==true) {
                         if(data[i].match(/<body>/)==null
