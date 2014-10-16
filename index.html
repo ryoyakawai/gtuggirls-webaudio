@@ -1,0 +1,270 @@
+<html>
+  <head>
+    <title>GTUG Girls Meetup #19</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <link rel="stylesheet" href="css/main.css" type="text/css" />
+
+  </head>
+  <body unresolved>
+    <script src="./bower_components/platform/platform.js"></script>
+
+    <link rel="import" href="./bower_components/core-toolbar/core-toolbar.html">
+    <link rel="import" href="./bower_components/core-icon-button/core-icon-button.html">
+    <link rel="import" href="./bower_components/core-media-query/core-media-query.html">
+    <link rel="import" href="./bower_components/paper-shadow/paper-shadow.html">
+    <link rel="import" href="./bower_components/paper-button/paper-button.html">
+    <link rel="import" href="./bower_components/paper-item/paper-item.html">
+    <link rel="import" href="./bower_components/paper-menu-button/paper-menu-button.html">
+    <link rel="import" href="./bower_components/paper-ripple/paper-ripple.html">
+
+    <script type="text/javascript" src="./google-code-prettify/prettify.js"   ></script>
+    <link  href="./google-code-prettify/prettify.css" type="text/css" rel="stylesheet" />
+
+    <core-toolbar>
+      <div id="div-menulist" class="toolbar" layout horizontal center>
+        <paper-menu-button icon="menu" id="menulist"></paper-menu-button>
+      </div>
+      
+      <span flex="">Web Audio APIを使ってみよう </span>
+      <img class="right-top-logo" src="./images/gtug_girls_logo.png">
+      <paper-shadow z="1"></paper-shadow>
+    </core-toolbar>
+
+    <div id="fab-apps" class="fab green deactive">
+      <core-icon icon="open-in-browser"></core-icon>
+      <paper-ripple class="circle recenteringTouch" fit></paper-ripple>
+    </div> 
+
+    <div id="fab-create" class="fab blue deactive">
+      <core-icon icon="create"></core-icon>
+      <paper-ripple class="circle recenteringTouch" fit></paper-ripple>
+    </div>
+
+    <div id="fab-visibility" class="fab red deactive">
+      <core-icon icon="visibility"></core-icon>
+      <paper-ripple class="circle recenteringTouch" fit></paper-ripple>
+    </div>
+    
+    <p class="js-frame">
+      <span id="iframe-content"></span>
+      <paper-shadow z="1"></paper-shadow>
+    </p>
+
+    <div id="buttons" class="flexdiv"></div>
+
+    <script type="text/javascript">
+    var bt=false; // begining transition
+    var tmpifc;
+    var dispNow=false;
+
+    window.onload=function(){
+        prettyPrint();
+    };
+
+    var pages=[
+        ["comp.02.html","First Step"], 
+        ["comp.03-01.html","Oscillator"], 
+        //["comp.03-02.html","Oscillator Timing Control"], 
+        ["comp.04.html","Vibrato Test"], 
+        ["comp.05.html","Node Lifetime"], 
+        ["comp.06.html","Buffer source"], 
+        ["comp.07.html","AudioParam Automation"],
+        ["comp.08-01.html","FM synthesize Test"], 
+        ["comp.08-02.html","Ring Modulation Test"], 
+        ["comp.09.html","Script Processor"], 
+        ["comp.10.html","BiquadFilter Test"], 
+        ["comp.11.html","Oscillator Custom waveform"], 
+        ["comp.12.html","Analyser"], 
+        ["comp.13-01.html","Delay Test"],
+        ["comp.13-02.html","Delay (PingPong) Test"], 
+        ["comp.13-03.html","Chorus Test"], 
+        ["comp.14.html","WaveShaper Test"], 
+        ["comp.15.html","CompTest"], 
+        ["comp.16.html","Convolver Test"], 
+        ["comp.17.html","Panner Test"]
+    ];
+
+    updateWindowSize();
+    updateFabPos()
+    window.onresize=function(){
+        updateWindowSize();
+        updateCenterLogo();
+        updateFabPos();
+    };
+    function updateWindowSize() {
+        document.querySelector(".js-frame").style.setProperty("height", getframeHeight()+"px");
+    }
+    function getframeHeight() {
+        return window.innerHeight-(2*20)-64;
+    }
+    function getframewidth() {
+        return window.innerwidth/2-180;
+    }
+    function updateCenterLogo() {
+        if(bt==false) {
+            var rtl=document.querySelector(".right-top-logo");
+            rtl.style.setProperty("left", (window.innerWidth/2-180)+"px");
+        }
+    }
+    function updateFabPos() {
+        var bezel=0.1 * window.innerWidth / 2;
+        var apps=document.getElementById("fab-apps");
+        apps.style.setProperty("left", (window.innerWidth-bezel-122)+"px");
+
+        var create=document.getElementById("fab-create");
+        create.style.setProperty("left", (window.innerWidth-bezel-82)+"px");
+
+        var vis=document.getElementById("fab-visibility");
+        vis.style.setProperty("left", (window.innerWidth-bezel-42)+"px");
+    }
+    function blinkhumberger() {
+        var hbg=document.getElementById("menulist");
+        if(hbg.className.match("blinkhumberger")==null) {
+            hbg.className+=" blinkhumberger";
+            setTimeout(function(){
+                hbg.className=hbg.className.replace(" blinkhumberger", "");
+            }, 3000);
+        }
+    }
+
+
+    function activeFab(targetid) {
+        if(typeof targetid=="undefined") targetid="";
+        var fa=document.getElementById("fab-apps");
+        var fc=document.getElementById("fab-create");
+        var fv=document.getElementById("fab-visibility");
+        fa.className=fa.className.replace(" deactive", "");
+        fc.className=fc.className.replace(" deactive", "");
+        fv.className=fv.className.replace(" deactive", "");
+
+        if(targetid!="fab-apps") fa.className+=" deactive";
+        if(targetid!="fab-create") fc.className+=" deactive";
+        if(targetid!="fab-visibility") fv.className+=" deactive";
+    }
+
+    document.getElementById("fab-apps").addEventListener("click", function(event){
+        if(dispNow===false) {
+            blinkhumberger();
+            return;
+        }
+        var elem=document.getElementById("iframe-content");
+        elem.innerHTML="";
+        elem.appendChild(tmpifc);
+        activeFab("fab-apps");
+    });
+    document.getElementById("fab-create").addEventListener("click", function(event){
+        if(dispNow===false) {
+            blinkhumberger();
+            return;
+        }
+        var url="./tutorials/"+pages[dispNow][0].replace("comp.", "");
+        var elem=document.getElementById("iframe-content");
+        elem.innerHTML="";
+        loadFile(url, elem);
+        activeFab("fab-create");
+    });
+    document.getElementById("fab-visibility").addEventListener("click", function(event){
+        if(dispNow===false) {
+            blinkhumberger();
+            return;
+        }
+        var url="./tutorials/"+pages[dispNow][0];
+        var elem=document.getElementById("iframe-content");
+        elem.innerHTML="";
+        loadFile(url, elem);
+        activeFab("fab-visibility");
+    });
+
+    function loadFile(url, elem) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.onreadystatechange = function(){
+            // for web server
+            if (xhr.readyState === 4 && xhr.status === 200){
+                result= xhr.responseText;
+                var sb=false;
+                var data=result.split("\n");
+                var out=[];
+                for(var i=0; i<data.length; i++) {
+                    //console.log(data[i].match(/<body>/));
+                    if(data[i].match(/<body>/)!=null) sb=true;
+                    if(data[i].match(/<\/body>/)!=null) sb=false;
+                    if(sb==true) {
+                        if(data[i].match(/<body>/)==null
+                           && data[i].match(/<\/body>/)==null) {
+                            out.push(data[i].replace(/</g, "&lt;"));
+                        }
+                    }
+                }
+
+                elem.innerHTML='<div class="prettyprint"><code class="prettyprint linenums">'+"\n"+out.join("<br>")+"</code></div>\n";
+                document.querySelector("div.prettyprint").style.setProperty("height", (getframeHeight()-40)+"px");
+                prettyPrint();
+            }
+            // for local file
+            if (xhr.readyState === 4 && xhr.status === 0){
+                result= xhr.responseText;
+                elem.innerHTML="<pre>"+result+"</pre>";
+            }
+        };
+        xhr.send(null);
+    }
+
+    var rtl=document.querySelector(".right-top-logo");
+    rtl.style.setProperty("left", (window.innerWidth/2-180)+"px");
+    rtl.style.setProperty("top", (window.innerHeight/2-83)+"px");
+
+    for( var i=0; i<pages.length; i++ ){
+        var pitem=document.createElement("paper-item");
+        pitem.innerHTML=i+". "+pages[i][1];
+        pitem.id=i;
+
+        document.getElementById("menulist").appendChild(pitem);
+        pitem.addEventListener("click", function(event){
+
+            // first splash
+            if(bt==false) {
+                document.querySelector(".js-frame").style.setProperty("background-color", "#fff");
+                var rtl=document.querySelector(".right-top-logo");
+                rtl.style.setProperty("opacity", "1");
+                rtl.style.setProperty("height", "60px");
+                rtl.style.setProperty("left", window.innerWidth-108-21+"px");
+                rtl.style.setProperty("top", "2px");
+                setTimeout(function(){
+                    rtl.style.removeProperty("left");
+                }, 600);
+                bt=true;
+            }
+
+            dispNow=event.target.id;
+            var iframe=document.createElement("iframe");
+            iframe.src="./tutorials/"+pages[event.target.id][0];
+            iframe.id="iframec";
+            iframe.setAttribute("boder", "0px");
+            iframe.setAttribute("frameborder", "0");
+            iframe.setAttribute("width", "90%");
+            iframe.setAttribute("height", (getframeHeight()-30)+"px");
+            iframe.setAttribute("scrolling", "auto");
+            iframe.setAttribute("seamless", "seamless");
+            iframe.style.setProperty("margin", "10px auto");
+            iframe.style.setProperty("margin", "20px");
+
+            tmpifc=iframe;
+            activeFab("fab-apps");
+            
+
+            var ifc=document.getElementById("iframe-content");
+            ifc.style.setProperty("opacity", "0");
+            setTimeout(function(){
+                ifc.innerHTML="";
+                ifc.appendChild(iframe);
+                ifc.style.setProperty("opacity", "1");
+            }, 300);
+        });
+    }
+
+    </script>
+  </body>
+</html>

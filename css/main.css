@@ -1,0 +1,153 @@
+body {
+  font-family: sans-serif;
+  margin:0px;
+  overflow-x: hidden;
+}
+
+core-toolbar {
+  background-color: #fce4ec;
+  color:#e91e63;
+}
+
+.js-frame {
+  margin:20px auto;
+  width:90%;
+  height:100%;
+  border: 0px solid #fff;
+  /*background-color:#fce4ec;*/
+  transition:0.5s;
+}
+.right-top-logo {
+  position:absolute;
+  transition:0.5s;
+  opacity:0.4;
+  right:5px;
+  top:2px;
+  height: 200px;
+  z-index:2;
+}
+
+.flexdiv {
+  display: -webkit-flexbox;
+  display: -moz-flexbox;
+  display: -ms-flexbox;
+  display: -o-flexbox;
+  display: flexbox;
+}
+
+#buttons {
+  margin:10px auto;
+  width:500px;
+}
+
+paper-button[raised].colored {
+  background: #f06292;
+  color: #fff;
+}
+paper-button.hover:hover {
+  background: #f8bbd0;
+}
+
+.toolbar {
+  font-size: 26px;
+  padding: 2px 12px;
+}
+
+.links {
+  margin:20px;
+}
+
+#iframe-content {
+  margin:0px auto;
+  transition:0.3s;
+  opacity:0;
+}
+
+
+
+/* FAB */
+.fab {
+  z-index:2;
+  position: absolute;
+  display: inline-block;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: #fff;
+  overflow: hidden;
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 0.2s;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+.deactive {
+  opacity:0.4;
+}
+
+.fab.red {
+  top:90px;
+  /*right:40px;*/
+  background-color: #d23f31;
+}
+
+.fab.blue {
+  top:90px;
+  /*right:80px;*/
+  background-color: #4285f4;
+}
+
+.fab.green {
+  top:90px;
+  /*right:120px;*/
+  background-color: #0f9d58;
+}
+
+.fab:active {
+  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+  transition-delay: 0s;
+}
+
+.fab > core-icon {
+  margin: 5px;
+}
+    
+.fab > core-icon::shadow path {
+  fill: #fff;
+}
+
+
+div.prettyprint {
+  padding:60px 20px 20px 20px;
+  height:100px;
+  overflow:scroll;
+}
+
+#menulist { 
+  border:1px solid rgba(233, 30, 99, 0);
+  border-radius:4px;
+  transition:0.5s;
+  box-shadow:0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+.blinkhumberger {
+  -webkit-animation-name: blink1;
+  -webkit-animation-duration: 1.0s;
+  -webkit-animation-timing-function: ease;
+  -webkit-animation-iteration-count: infinite;
+}
+@-webkit-keyframes blink1 { 
+  0% {
+    border:1px solid rgba(233, 30, 99, 0); 
+    box-shadow:0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    background-color:rgba(233, 30, 99, 0);
+    color: #e91e63;
+  }
+  50% {
+    border:1px solid rgba(233, 30, 99, 1); 
+    box-shadow:0 4px 10px 0 rgba(0, 0, 0, 1.0);
+    background-color:rgba(233, 30, 99, 1);
+    color: #fce4ec;
+  }
+}
+.boxshadow {
+  box-shadow:0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
