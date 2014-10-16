@@ -23,7 +23,7 @@
 
     var mode = 0;
     var src = null;
-    var analyser = audioctx.createAnalyser();
+    var analyser = /* #1 analyser node を作成 */;
     analyser.fftSize = 1024;
     document.getElementById("min").value = analyser.minDecibels;
     document.getElementById("max").value = analyser.maxDecibels;
@@ -81,12 +81,22 @@
     function DrawGraph() {
         ctx.fillStyle = gradbase;
         ctx.fillRect(0, 0, 256, 256);
-        var data = new Uint8Array(256);
-        if(mode == 0) analyser.getByteFrequencyData(data); //Spectrum Data
-        else analyser.getByteTimeDomainData(data); //Waveform Data
+        ctx.strokeStyle="rgba(255, 255, 255, 1)";
+        var data = /* #2 256個 の 8bit Unsigned Integer のArray を用意する */new Uint8Array(256);
+        if(mode == 0) /* #3 周波数のデータを取得する */  //Spectrum Data
+        else /* #4 時間毎のデータを取得する */ //Waveform Data
+        if(mode!=0) ctx.beginPath();
         for(var i = 0; i < 256; ++i) {
-            ctx.fillStyle = gradline[data[i]];
-            ctx.fillRect(i, 256 - data[i], 1, data[i]);
+            if(mode==0) {
+                ctx.fillStyle = gradline[data[i]];
+                /* #5 (i, 256 - data[i]) から width=1, height=data[i] の四角を描く　*/
+            } else {
+                ctx.strokeStyle="rgba(255, 255, 255, 1)";
+                /* #6 現在の点から(i, 256 - data[i]) まで直線を描く */
+            }
+        }
+        if(mode!=0) {
+            ctx.stroke();
         }
     }
     Setup();

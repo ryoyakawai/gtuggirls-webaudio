@@ -81,12 +81,21 @@
     function DrawGraph() {
         ctx.fillStyle = gradbase;
         ctx.fillRect(0, 0, 256, 256);
+        ctx.strokeStyle="rgba(255, 255, 255, 1)";
         var data = new Uint8Array(256);
         if(mode == 0) analyser.getByteFrequencyData(data); //Spectrum Data
         else analyser.getByteTimeDomainData(data); //Waveform Data
+        if(mode!=0) ctx.beginPath();
         for(var i = 0; i < 256; ++i) {
-            ctx.fillStyle = gradline[data[i]];
-            ctx.fillRect(i, 256 - data[i], 1, data[i]);
+            if(mode==0) {
+                ctx.fillStyle = gradline[data[i]];
+                ctx.fillRect(i, 256 - data[i], 1, data[i]);
+            } else {
+                ctx.lineTo(i, 256 - data[i])
+            }
+        }
+        if(mode!=0) {
+            ctx.stroke();
         }
     }
     Setup();
