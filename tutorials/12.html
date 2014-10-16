@@ -83,8 +83,8 @@
         ctx.fillRect(0, 0, 256, 256);
         ctx.strokeStyle="rgba(255, 255, 255, 1)";
         var data = /* #2 256個 の 8bit Unsigned Integer のArray を用意する */new Uint8Array(256);
-        if(mode == 0) /* #3 周波数のデータを取得する */  //Spectrum Data
-        else /* #4 時間毎のデータを取得する */ //Waveform Data
+        if(mode == 0) /* #3 周波数軸のデータを取得する */  //Spectrum Data
+        else /* #4 時間軸のデータを取得する */ //Waveform Data
         if(mode!=0) ctx.beginPath();
         for(var i = 0; i < 256; ++i) {
             if(mode==0) {
