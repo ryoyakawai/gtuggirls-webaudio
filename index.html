@@ -110,9 +110,14 @@
         }
     }
     function updateIframeSize() {
+        var bezel=0.1 * window.innerWidth / 2;
         if(document.querySelector("div.prettyprint")!=null) {
             document.querySelector("div.prettyprint").style.setProperty("height", (getframeHeight()-85)+"px");
             rtl.style.setProperty("padding-top", "5px");
+        }
+        if(document.querySelector("#iframec")!=null) {
+            document.querySelector("#iframec").style.setProperty("height", (getframeHeight()-30)+"px");
+            document.querySelector("#iframec").style.setProperty("width", (window.innerWidth-2*bezel-28)+"px");
         }
     }
     function updateFabPos() {
@@ -251,7 +256,7 @@
             iframe.id="iframec";
             iframe.setAttribute("boder", "0px");
             iframe.setAttribute("frameborder", "0");
-            iframe.setAttribute("width", "90%");
+//            iframe.setAttribute("width", (0.88*window.innerWidth)+"px");
             iframe.setAttribute("height", (getframeHeight()-30)+"px");
             iframe.setAttribute("scrolling", "auto");
             iframe.setAttribute("seamless", "seamless");
@@ -268,6 +273,7 @@
                 ifc.innerHTML="";
                 ifc.appendChild(iframe);
                 ifc.style.setProperty("opacity", "1");
+                updateIframeSize();
             }, 300);
         });
     }
