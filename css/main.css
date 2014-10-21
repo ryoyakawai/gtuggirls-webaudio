@@ -26,6 +26,14 @@ core-toolbar {
   height: 200px;
   z-index:2;
 }
+.poweredby {
+  font-family: monospace, sans-serif;
+  font-size:10px;
+  position:absolute; 
+  padding:5px 10px 5px 5px;
+  bottom:0px;
+  right:0px;
+}
 
 .flexdiv {
   display: -webkit-flexbox;

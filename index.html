@@ -97,7 +97,11 @@
         updateIframeSize();
     };
     function updateWindowSize() {
-        document.querySelector(".js-frame").style.setProperty("height", getframeHeight()+"px");
+        var height=getframeHeight();
+        document.querySelector(".js-frame").style.setProperty("height", "260px");
+        if(height>260) {
+            document.querySelector(".js-frame").style.setProperty("height", height+"px");
+        }
     }
     function getframeHeight() {
         return window.innerHeight-(2*20)-64;
@@ -109,6 +113,11 @@
         if(bt==false) {
             var rtl=document.querySelector(".right-top-logo");
             rtl.style.setProperty("left", (window.innerWidth/2-180)+"px");
+            var top=getframeHeight()/2;
+            rtl.style.setProperty("top", "84px");
+            if(top>84) {
+                rtl.style.setProperty("top", (top-20)+"px");
+            }
         }
     }
     function updateIframeSize() {
@@ -230,8 +239,7 @@
     }
 
     var rtl=document.querySelector(".right-top-logo");
-    rtl.style.setProperty("left", (window.innerWidth/2-180)+"px");
-    rtl.style.setProperty("top", (window.innerHeight/2-83)+"px");
+    updateCenterLogo();
 
     for( var i=0; i<pages.length; i++ ){
         var pitem=document.createElement("paper-item");
