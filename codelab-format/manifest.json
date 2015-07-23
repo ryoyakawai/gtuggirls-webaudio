@@ -3,7 +3,7 @@
   "name": "Web Audio API Codelab",
   "short_name": "Web Audio Codelab",
   "icons": [{
-        "src": "./images/webaudio-js-144x144",
+        "src": "./images/webaudio-js-144x144.png",
         "sizes": "144x144",
         "type": "image/png"
       }],
