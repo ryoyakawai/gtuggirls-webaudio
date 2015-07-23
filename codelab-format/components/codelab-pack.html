@@ -627,7 +627,7 @@
       ready: function(){
           //var p=location.pathname.split("/");
           this.codelab_id=this.label.replace(/ /g,"_").toLowerCase();
-          document.title = "Codelab: " + this.label;
+          document.title = this.label + " | Codelab ";
           this.$["title"].innerHTML = this.label;
           this.steps = this.querySelectorAll('codelab-article');
           var arraySteps=[];
