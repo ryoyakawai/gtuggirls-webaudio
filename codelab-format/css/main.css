@@ -1,0 +1,53 @@
+body {
+  font-family: 'Roboto', 'Noto', sans-serif;
+  font-size: 14px;
+  margin: 0;
+  padding: 24px;
+  overflow-y:hidden;
+}
+.input-font {
+  font-family: 'Source Code Pro', Helvetica, Arial;
+  font-weight:300;
+}
+section {
+  padding: 20px 0;
+}
+section > div {
+  padding: 14px;
+  font-size: 16px;
+}
+.middle {
+  vertical-align:middle;
+  margin-right:5px;
+}
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+h2, h3, h4{
+  margin-bottom:5px
+}
+h4 {
+  margin-top:8px;
+}
+p.top, ul.top, div.top {
+  margin-top:5px;
+}
+p.bottom5px {
+  margin-bottom:5px;
+}
+div.indent15 {
+  padding-left:15px;
+}
+
+img.bordered { 
+  border-radius:5px;
+  border:1px solid rgba(200, 200, 200, 0.5);
+}
+span.notice-01 {
+  color:rgba(150, 150, 150, 1);
+  font-size:0.8em;
+  margin-left:10px;
+}

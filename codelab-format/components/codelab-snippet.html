@@ -1,0 +1,58 @@
+<dom-module id="codelab-snippet">
+  <link href='//fonts.googleapis.com/css?family=Source+Code+Pro:300,400' rel='stylesheet' type='text/css'>
+  <!--link rel="import" type="css" href="../bower_components/highlightjs/styles/railscasts.css"-->
+  <!--link rel="import" type="css" href="../components/codelab-snippet.css"-->
+  <script src="../bower_components/highlightjs/highlight.pack.js"></script>
+  <style></style>
+  <template>
+    <code id="container" language="{{lang}}"><pre id="code"><content></content></pre></code>
+  </template>
+  <script>
+  Polymer({
+      is: "codelab-snippet",
+      properties: {
+          lang: {
+              type: String,
+              value: null
+          },
+          highlightedCode: {
+              type: String,
+              value: ""
+          },
+          src: {
+              type: String,
+              value: ""
+          }
+      },
+      ready: function() {
+          this.$.container.addEventListener("copy", function(el){ return function() {
+              el.fire('code-snippet-copied', {'snippet': el.$.code.innerText});
+          }}(this));
+      },
+      highlight: function() {
+          if (!this.highlightedCode_) {
+              if (this.src) {
+                  var srcParts = this.src.split('.');
+                  var extension = srcParts[srcParts.length - 1];
+                  this.lang = (extension == 'xml' || extension == 'gradle') ?
+                                                                  'html' : extension;
+              }
+              this.tetContent=this.textContent.replace(/\s+$/g,'');
+              if (this.lang) {
+                  this.highlightedCode = hljs.highlight(
+                      this.lang, this.textContent).value;
+              } else {
+                  this.highlightedCode = hljs.highlightAuto(this.textContent).value;
+              }
+          }
+          this.highlightedCode=this.highlightedCode.replace(/^\n/, "").replace(/\s+$/g,'');
+          this.highlightedCodeChanged();
+      },
+      highlightedCodeChanged: function() {
+          // Set innerHTML to stamp unescaped HTML. See
+          // https://www.polymer-project.org/0.5/resources/faq.html#setinnerHTML.
+          this.$["code"].innerHTML = this.highlightedCode;
+      }
+  });
+  </script>
+</dom-module>
