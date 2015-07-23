@@ -1,0 +1,12 @@
+{
+  "lang": "ja",
+  "name": "Web Audio API Codelab",
+  "short_name": "Web Audio Codelab",
+  "icons": [{
+        "src": "./images/webaudio-js-144x144",
+        "sizes": "144x144",
+        "type": "image/png"
+      }],
+  "start_url": "https://webmusicdevelopers.appspot.com/codelabs/webaudio/index.html",
+  "display": "standalone"
+}
