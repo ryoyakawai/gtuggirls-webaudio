@@ -20,7 +20,7 @@
     <link rel="import" href="./components/import.html">
     <script src="./bower_components/webcomponentsjs/webcomponents-lite.js"></script>
     <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <style>
+    <style is="custom-style">
     .material-icons {
       color: rgba(140, 140, 140, 1);
     }
@@ -33,6 +33,17 @@
     canvas.step7 {
       background-color:rgba(34, 34, 34, 1.0);
       border-radius:3px;
+    }
+    .hidden {
+      visibility:hidden;
+      display:none;
+    }
+    paper-progress.step9 {
+      width:35px;
+      height:15px;
+      margin-bottom:3px;
+      --paper-progress-active-color: var(--paper-light-blue-500);
+      --paper-progress-secondary-color: var(--paper-light-blue-100);
     }
     </style>
   </head>
@@ -682,12 +693,10 @@ document.querySelector("input#revlevel").addEventListener("change", function(eve
 });
 &lt;/script></codelab-snippet>
 
-        
-        <p>アプリケーションを実行し、実行画面内の <button id="step9">Start</button> ボタンをクリックしてマイクから入力した音声が流れ、以下の Slider を動かすことでエフェクトの掛かり具合の調整が行えれば成功です。</p>
+        <p>アプリケーションを実行し、実行画面内の <button id="step9">Start</button> <paper-progress value="0" id="step9progress" class="step9 middle hidden"></paper-progress> ボタンをクリックしてマイクから入力した音声が流れ、以下の Slider を動かすことでエフェクトの掛かり具合の調整が行えれば成功です。</p>
         <ul style="list-style-type: none">
           <li><span class="input-font">ReverbLevel : <input type="range" id="step9revlevel" min="0" max="100" value="50" style="width:200px;" class="middle"/><span id="revdisp">50</span></span></li>
         </ul>
-        
       </codelab-article>
 
 

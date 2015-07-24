@@ -291,15 +291,20 @@ webaudiodemo.prototype={
     _toggleStep8GraphType: function() {
         this.analyserType8==0 ? this.analyserType8=1 : this.analyserType8=0;
     },
-    playStep9: function(label) {
+    playStep9: function(label, progressElem, buttonElem) {
+        var progress=[];
         switch(label) {
           case "Start":
+            
+            progressElem.className=progressElem.className.replace(/ hidden/, "");
+            buttonElem.className+=" hidden";
+
             var buffers=[];
             var urls = ["./contents/loop.wav", "./contents/ir/s1_r1_bd.wav"];
             for(var i=0; i<urls.length; i++) {
-                LoadSample.bind(this)(this.audioCtx, i);
+                LoadSample.bind(this)(this.audioCtx, i, progressElem, buttonElem);
             }
-            function LoadSample(ctx, idx) {
+            function LoadSample(ctx, idx, progressElem, buttonElem) {
                 var self=this;
                 var req = new XMLHttpRequest();
                 req.open("GET", urls[idx], true);
@@ -318,7 +323,21 @@ webaudiodemo.prototype={
                         },function(){});
                     }
                 };
+                req.onprogress=function(event){
+                    progress[idx] = event.loaded / event.total;
+                    progressElem.value=100*sum(progress)/2;
+                    if(progressElem.value==100) {
+                        progressElem.className+=" hidden";
+                        buttonElem.className=buttonElem.className.replace(/ hidden/, "");
+                    }
+                    console.log(idx, progressElem, sum(progress));
+                };
                 req.send();
+                var sum  = function(arr) {
+                    return arr.reduce(function(prev, current, i, arr) {
+                        return prev+current;
+                    });
+                };
             }
             function startPlay(buffers) {
                 this.convolver = this.audioCtx.createConvolver();
@@ -390,7 +409,7 @@ document.querySelector("canvas#step8canvas").addEventListener("click", function(
     ad._toggleStep8GraphType();
 });
 document.querySelector("button#step9").addEventListener("click", function(event){
-    event.target.innerHTML=ad.playStep9(event.target.innerHTML);
+    event.target.innerHTML=ad.playStep9(event.target.innerHTML, document.querySelector("#step9progress"), event.target);
 });
 document.querySelector("input#step9revlevel").addEventListener("change", function(event){
     var val=event.target.value;
