@@ -1,6 +1,6 @@
 <dom-module id="codelab-article">
   <style>
-  @import url('https://fonts.googleapis.com/css?family=Roboto:100,200,400,300,300italic,700,500|Source+Code+Pro:400,700');
+  @import url('//fonts.googleapis.com/css?family=Roboto:100,200,400,300,300italic,700,500|Source+Code+Pro:400,700');
   body {
     display: -webkit-flex;
     display: -moz-flex;
@@ -82,7 +82,7 @@
       <paper-material id="tutorial_contents" elevation="1">
         <div id="drawerpanel_main_outer">
           <div id="drawerpanel_main_inner">
-            <h2 id="step_label">{{step_label}}</h2>
+            <h2><span id="step_no">{{step}}</span>. <span id="step_label">{{step_label}}</span></h2>
             <content></content>
           </div>
         </div>
@@ -121,8 +121,12 @@
                   code_sections[i].innerHTML = '<pre>' + highlighted_code + '</pre>';
               }
           }
-
-          this.$["step_label"].innerHTML=this.step+". "+this.step_label;
+          // different behavier in Chrome 44 and ff 39
+          if(typeof this.step!="undefined") {
+              this.$["step_no"].innerHTML=this.step;
+              this.$["step_label"].innerHTML=this.step_label;
+          }
+          if(parseInt(this.$["step_no"])==="NaN") this.$["step_no"].innerHTML=this.step;
           var span=document.createElement("span");
           span.innerHTML="Did you find a mistake in this codelab? ";
           var href1=document.createElement("a");

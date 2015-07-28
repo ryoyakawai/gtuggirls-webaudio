@@ -1,6 +1,6 @@
 <dom-module id="codelab-pack">
   <style is="custom-style">
-  @import url('https://fonts.googleapis.com/css?family=Roboto:100,200,400,300,300italic,700,500|Source+Code+Pro:400,700');
+  @import url('//fonts.googleapis.com/css?family=Roboto:100,200,400,300,300italic,700,500|Source+Code+Pro:400,700');
   @media (max-width: 800px) {
     paper-toolbar {
       height: 64px;
@@ -627,7 +627,7 @@
       ready: function(){
           //var p=location.pathname.split("/");
           this.codelab_id=this.label.replace(/ /g,"_").toLowerCase();
-          document.title = this.label + " | Codelab ";
+          document.title = this.label + " | Codelab" ;
           this.$["title"].innerHTML = this.label;
           this.steps = this.querySelectorAll('codelab-article');
           var arraySteps=[];
