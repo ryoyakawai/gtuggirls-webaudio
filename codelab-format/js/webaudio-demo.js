@@ -301,10 +301,7 @@ webaudiodemo.prototype={
 
             var buffers=[];
             var urls = ["./contents/loop.wav", "./contents/ir/s1_r1_bd.wav"];
-            for(var i=0; i<urls.length; i++) {
-                LoadSample.bind(this)(this.audioCtx, i, progressElem, buttonElem);
-            }
-            function LoadSample(ctx, idx, progressElem, buttonElem) {
+            function loadSample(ctx, idx, progressElem, buttonElem) {
                 var self=this;
                 var req = new XMLHttpRequest();
                 req.open("GET", urls[idx], true);
@@ -330,7 +327,6 @@ webaudiodemo.prototype={
                         progressElem.className+=" hidden";
                         buttonElem.className=buttonElem.className.replace(/ hidden/, "");
                     }
-                    console.log(idx, progressElem, sum(progress));
                 };
                 req.send();
                 var sum  = function(arr) {
@@ -339,6 +335,11 @@ webaudiodemo.prototype={
                     });
                 };
             }
+            // fetch files by xhr 
+            for(var i=0; i<urls.length; i++) {
+                loadSample.bind(this)(this.audioCtx, i, progressElem, buttonElem);
+            }
+
             function startPlay(buffers) {
                 this.convolver = this.audioCtx.createConvolver();
                 this.revlevel = this.audioCtx.createGain();
