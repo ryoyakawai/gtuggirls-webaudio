@@ -733,7 +733,7 @@
       toggleMenu: function() {
           this.$["paperDrawerPanel"].togglePanel();
       },
-      _updateStandardSeamed: function() {
+      _updateStandardSeamed: function(event) {
           this.mode = (event.target.scrollTop > 0) ? 'standard' : 'seamed';
       },
       _adjustContentInnerSize: function(offset) {

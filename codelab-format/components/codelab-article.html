@@ -102,10 +102,11 @@
           type: String,
           value: ""
         },
-        feedback_link: {
-          type: String,
-          value: ""
-        },
+        feedback_url_count: {
+          type: Number,
+          value: 0
+        }
+
       },
       ready: function() {
           var code_sections = this.querySelectorAll('code');
@@ -121,36 +122,44 @@
                   code_sections[i].innerHTML = '<pre>' + highlighted_code + '</pre>';
               }
           }
-          // different behavier in Chrome 44 and ff 39
-          if(typeof this.step!="undefined") {
-              this.$["step_no"].innerHTML=this.step;
-              this.$["step_label"].innerHTML=this.step_label;
-          }
-          if(parseInt(this.$["step_no"])==="NaN") this.$["step_no"].innerHTML=this.step;
-          var span=document.createElement("span");
-          span.innerHTML="Did you find a mistake in this codelab? ";
-          var href1=document.createElement("a");
-          href1.href=this.feedback_link;
-          href1.innerHTML="file a bug.";
-          this.$["footer_message"].appendChild(span);
-          this.$["footer_message"].appendChild(href1);
- 
-         this.$["feedback_link"]=this.feedback_link;
-
-          window.addEventListener("paper-responsive-change", function(event){
-              var elem=event.target;
-              checkResponsiveStatus.bind(this)(elem);
-          }.bind(this));
-          function checkResponsiveStatus(elem) {
-              if(elem.hasAttribute("narrow")===true) {
-                  this.$["neon-animatable"].style.setProperty("margin", "0px 0px");
-              } else {
-                  this.$["neon-animatable"].style.setProperty("margin", "0px 10px");
-              }
-          }
       },
       attached: function() {
           this.async(function() { // used be a domReady
+              // different behavier in Chrome 44 and ff 39
+              if(typeof this.step!="undefined") {
+                  this.$["step_no"].innerHTML=this.step;
+                  this.$["step_label"].innerHTML=this.step_label;
+              }
+              if(parseInt(this.$["step_no"])==="NaN") this.$["step_no"].innerHTML=this.step;
+
+              // different behavier in Chrome 44 and ff 39
+              if(this.feedback_url_count<1) {
+                  if(typeof this.feedback_link=="undefined") {
+                      this.feedback_link=this.$["feedback_url"].value;
+                  }
+                  var span=document.createElement("span");
+                  span.innerHTML="Did you find a mistake in this codelab? ";
+                  var href1=document.createElement("a");
+                  href1.href=this.feedback_link;
+                  href1.innerHTML="file a bug.";
+                  this.$["footer_message"].appendChild(span);
+                  this.$["footer_message"].appendChild(href1);
+                  
+                  this.$["feedback_link"]=this.feedback_link;              
+                  this.feedback_url_count++;
+              }
+              
+              window.addEventListener("paper-responsive-change", function(event){
+                  var elem=event.target;
+                  checkResponsiveStatus.bind(this)(elem);
+              }.bind(this));
+              function checkResponsiveStatus(elem) {
+                  if(elem.hasAttribute("narrow")===true) {
+                      this.$["neon-animatable"].style.setProperty("margin", "0px 0px");
+                  } else {
+                      this.$["neon-animatable"].style.setProperty("margin", "0px 10px");
+                  }
+              }
           });
       },
       toggleMargin: function() {
