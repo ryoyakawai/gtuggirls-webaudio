@@ -160,6 +160,8 @@
                       this.$["neon-animatable"].style.setProperty("margin", "0px 10px");
                   }
               }
+              // initialize responsive status
+              checkResponsiveStatus.bind(this)(document.getElementById("paperDrawerPanel"));
           });
       },
       toggleMargin: function() {

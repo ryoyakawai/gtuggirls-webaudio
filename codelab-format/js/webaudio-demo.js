@@ -377,43 +377,45 @@ webaudiodemo.prototype={
 };
 var ad=new webaudiodemo();
 
+window.addEventListener('WebComponentsReady', function(event) {
 
-document.querySelector("button#step3").addEventListener("click", function(event){
-    event.target.innerHTML=ad.playStep3();
-});
-document.querySelector("button#step4").addEventListener("click", function(event){
-    event.target.innerHTML=ad.playStep4();
-});
-document.querySelector("button#step4-set").addEventListener("click", function(event){
-    ad.randomStep4();
-});
-document.querySelector("button#step5").addEventListener("click", function(event){
-    ad.playStep5();
-});
-document.querySelector("button#step6").addEventListener("click", function(event){
-    var bypass=document.querySelector("input#step6bypass").checked;
-    event.target.innerHTML=ad.playStep6(event.target.innerHTML, bypass);
-});
-document.querySelector("input#step6bypass").addEventListener("change", function(event){
-    ad.updateMixplayStep6(event.target.checked);
-});
-document.querySelector("button#step7").addEventListener("click", function(event){
-    event.target.innerHTML=ad.playStep7(event.target.innerHTML, document.querySelector("canvas#step7canvas"));
-});
-document.querySelector("canvas#step7canvas").addEventListener("click", function(event){
-    ad._toggleStep7GraphType();
-});
-document.querySelector("button#step8").addEventListener("click", function(event){
-    event.target.innerHTML=ad.playStep8(event.target.innerHTML, document.querySelector("canvas#step8canvas"));
-});
-document.querySelector("canvas#step8canvas").addEventListener("click", function(event){
-    ad._toggleStep8GraphType();
-});
-document.querySelector("button#step9").addEventListener("click", function(event){
-    event.target.innerHTML=ad.playStep9(event.target.innerHTML, document.querySelector("#step9progress"), event.target);
-});
-document.querySelector("input#step9revlevel").addEventListener("change", function(event){
-    var val=event.target.value;
-    event.target.nextSibling.innerHTML=val;
-    ad._updateStep9Revlevel(val);
+    document.querySelector("button#step3").addEventListener("click", function(event){
+        event.target.innerHTML=ad.playStep3();
+    });
+    document.querySelector("button#step4").addEventListener("click", function(event){
+        event.target.innerHTML=ad.playStep4();
+    });
+    document.querySelector("button#step4-set").addEventListener("click", function(event){
+        ad.randomStep4();
+    });
+    document.querySelector("button#step5").addEventListener("click", function(event){
+        ad.playStep5();
+    });
+    document.querySelector("button#step6").addEventListener("click", function(event){
+        var bypass=document.querySelector("input#step6bypass").checked;
+        event.target.innerHTML=ad.playStep6(event.target.innerHTML, bypass);
+    });
+    document.querySelector("input#step6bypass").addEventListener("change", function(event){
+        ad.updateMixplayStep6(event.target.checked);
+    });
+    document.querySelector("button#step7").addEventListener("click", function(event){
+        event.target.innerHTML=ad.playStep7(event.target.innerHTML, document.querySelector("canvas#step7canvas"));
+    });
+    document.querySelector("canvas#step7canvas").addEventListener("click", function(event){
+        ad._toggleStep7GraphType();
+    });
+    document.querySelector("button#step8").addEventListener("click", function(event){
+        event.target.innerHTML=ad.playStep8(event.target.innerHTML, document.querySelector("canvas#step8canvas"));
+    });
+    document.querySelector("canvas#step8canvas").addEventListener("click", function(event){
+        ad._toggleStep8GraphType();
+    });
+    document.querySelector("button#step9").addEventListener("click", function(event){
+        event.target.innerHTML=ad.playStep9(event.target.innerHTML, document.querySelector("#step9progress"), event.target);
+    });
+    document.querySelector("input#step9revlevel").addEventListener("change", function(event){
+        var val=event.target.value;
+        event.target.nextSibling.innerHTML=val;
+        ad._updateStep9Revlevel(val);
+    });
 });

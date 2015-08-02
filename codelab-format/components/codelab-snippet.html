@@ -3,7 +3,11 @@
   <!--link rel="import" type="css" href="../bower_components/highlightjs/styles/railscasts.css"-->
   <!--link rel="import" type="css" href="../components/codelab-snippet.css"-->
   <script src="../bower_components/highlightjs/highlight.pack.js"></script>
-  <style></style>
+  <style>
+  pre {
+    overflow: auto;
+  }
+  </style>
   <template>
     <code id="container" language="{{lang}}"><pre id="code"><content></content></pre></code>
   </template>
