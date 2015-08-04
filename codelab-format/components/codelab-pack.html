@@ -189,6 +189,12 @@ analytics.init();
     transition-delay: 0.2s;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
   }
+  .fab.gray {
+    background-color: #B6B6B6;
+  }
+  .fab.blue {
+    background-color: #4285f4;
+  }
   .fab.forward {
     position:fixed;
     right:40px; bottom:25px;
@@ -199,6 +205,17 @@ analytics.init();
     margin-left:35px;
     bottom:25px;
     background-color: #999;
+  }
+  div#language {
+    position:absolute;
+    width: 46px;
+    height: 46px;
+    right:40px;
+    top:36px;
+    z-index:3;
+  }
+  #language > iron-icon {
+    margin: 11px;
   }
   #page_control {
     position:fixed;
@@ -363,9 +380,19 @@ analytics.init();
     line-height: 24px;
     /* Code snippets */
   }
+  .hidden {
+    visibility: hidden;
+    display: none;
+  }
   </style>
   <template>
     <polymer-cookie name="codelabs" id="cookie" value$="{{cookie}}"></polymer-cookie>
+
+    <div id="language" class="fab gray raised hidden">
+      <iron-icon icon="language"></iron-icon>
+      <paper-ripple class="circle" recenters></paper-ripple>
+    </div>
+
     <paper-header-panel mode="{{mode}}" class="blue">
       <div class="paper-header">
         <iron-icon id="menu_button" icon="menu" noink="" on-click="toggleMenu" role="button" tabindex="0" aria-label="menu"></iron-icon>
@@ -383,7 +410,7 @@ analytics.init();
           </div>
         </div>
       </div>
-      </div>
+      <!/div>
       <div class="content"></div>
     </paper-header-panel>
 
@@ -415,7 +442,6 @@ analytics.init();
             <paper-ripple class="circle" recenters></paper-ripple>
           </div>
         </div>
-
     </paper-drawer-panel>
   </template>
   <script>
@@ -495,6 +521,7 @@ analytics.init();
       updateTocSelected: function() {
           var idx=this.selectedIdx;
           var tocItems=Array.prototype.slice.call(this.getElementsByTagName("paper-item"));
+
           for(var i=0; i<tocItems.length; i++) {
               tocItems[i].blur();
               tocItems[i].removeAttribute("aria-selected");
@@ -505,8 +532,11 @@ analytics.init();
           }
       },
       highlightSnippets: function() {
-          //
+          //console.log(this.steps[this.selectedIdx]);
           this.steps[this.selectedIdx].highlight();
+      },
+      dispLanguageSelector: function() {
+          this.$["language"].className=this.$["language"].className.replace(" hidden", "");
       },
       tracking: function() {
           var currentStep = this.selectedIdx+1;
@@ -517,7 +547,7 @@ analytics.init();
                   analytics.complete(this.codelab);
               }
           }
-          
+          console.log("[Analytics] tracking");
       },
       _prevStep: function(idx) {
           if (this.selectedIdx - 1 >= 0) {
@@ -566,7 +596,7 @@ analytics.init();
           this._stepUpdatedByStepNo(step);
       },
       _stepUpdatedByStepNo: function(step) {
-          var idx=step-1;
+          var idx=parseInt(step, 10)-1;
           var tocElems=this.querySelector("#toc-items").getElementsByTagName("paper-item");
 
           this._updateTocCompleted.bind(this)(idx, tocElems);
@@ -698,11 +728,12 @@ analytics.init();
           return s + 60 * m + 60*60 * h;
       },
       changeStep: function(event) {
-          
+          console.log(event.target);
       },
       setSelectedStepFromHash: function() {
           var stepFromHash = window.location.hash ?
                              parseInt(window.location.hash.replace('#', '')) : "false";
+
           var tocElems=this.querySelector("#toc-items").getElementsByTagName("paper-item");
           if(typeof tocElems!="undefined") {
               if(tocElems.length<0) {
@@ -738,7 +769,10 @@ analytics.init();
         }
         this.updateTocSelected.bind(this)();
       },
-      updateHashChanged: function(oldVal, newVal) {
+      updateHashChanged: function(newVal, oldVal) {
+          if(typeof oldVal=="undefined") {
+              return;
+          }
           var step=parseInt(this.selectedIdx, 10)+1;
           window.location.hash = '#' + step;
       },
@@ -810,10 +844,11 @@ analytics.init();
               var event = new CustomEvent("paper-responsive-change", {detail:elem});
               elem.dispatchEvent(event);
 
-              // adjusting content_inner_size                                                                                                                                 
+              // adjusting content_inner_size                       
               this._adjustContentInnerSize.bind(this)(0);
               window.onresize=this._adjustContentInnerSize.bind(this);
               
+
               // scroll bar in drawer for windows chrome 
               this.$["drawerpanel_drawer"].style.setProperty("overflow-x", "hidden");
               this.$["drawerpanel_drawer"].style.setProperty("overflow-y", "auto");
@@ -828,18 +863,33 @@ analytics.init();
                   var tocElems=this.querySelector("#toc-items").getElementsByTagName("paper-item");
                   this._updateNavIconCompleted.bind(this)(this.selectedIdx+1, tocElems.length);
 
-                  // reproduce last step
+                  // reproduce last step or usign hash number
+                  var numHash=parseInt(window.location.hash.replace("#", ""), 10);
                   var lastStep=this.$["cookie"].getSavedCookie(this.codelab_id);
                   if(lastStep.value<=1) this.selectedIdx=parseInt(lastStep.value, 10);
-                  this.stepUpdatedByCookie(parseInt(lastStep.value)+1);
-              }.bind(this), 10);
+                  if(numHash>0) {
+                      this.selectedIdx=numHash-1;
+                      lastStep.value=numHash-1;
+                  }
+                  if(typeof lastStep.value!="undefined") this.stepUpdatedByCookie(parseInt(lastStep.value, 10)+1);
+
+                  // initializing snippet
+                  this.highlightSnippets.bind(this)();
+
+              }.bind(this), 20);
               
               this.$["codelab-pages"].addEventListener("neon-animation-finish", function(){
                   this.highlightSnippets.bind(this)();
               }.bind(this));
 
-              // initializing snippet
-              this.highlightSnippets.bind(this)();
+                  
+              // add event listener to language selecor
+              this.$["language"].addEventListener("click", function(event){
+                  //this.setLastLocation();
+                  window.location="./index.html"+window.location.hash;
+                  //window.location.search="";
+                  //window.location.hash=window.location.hash;
+              }.bind(this));
 
           });
       },

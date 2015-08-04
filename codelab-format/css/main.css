@@ -35,9 +35,6 @@ h4 {
 p.top, ul.top, div.top {
   margin-top:5px;
 }
-p.bottom5px {
-  margin-bottom:5px;
-}
 div.indent15 {
   padding-left:15px;
 }
@@ -50,4 +47,11 @@ span.notice-01 {
   color:rgba(150, 150, 150, 1);
   font-size:0.8em;
   margin-left:10px;
+}
+p.langdescription { 
+  font-size:1.2em;
+  font-weight:300;
+}
+p.langdescription, p.selectlang { 
+  text-align:center;
 }

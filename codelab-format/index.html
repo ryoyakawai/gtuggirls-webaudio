@@ -13,19 +13,36 @@
     <meta property="og:image" content="https://webmusicdevelopers.appspot.com/codelabs/webaudio/images/webmidi-js-144x144.png" />
     <meta property="og:description" content="This is a codelab for Web MIDI API." />
     <meta property="og:site_name" content="Web MIDI API - Codelab" />
+    <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="manifest" href="./manifest.json">
     <link rel="stylesheet" href="./css/main.css" type="text/css" />
     <link rel="stylesheet" href="./bower_components/highlightjs/styles/railscasts.css" type="text/css" />
 
-    <link rel="import" href="./components/import.html">
     <script src="./bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="import" href="./bower_components/polymer/polymer-micro.html">
 
-    <link rel="import" href="./step.ja.html" id="ja">
+    <link rel="import" href="./components/import_papers.html">
+    <link rel="import" href="./components/import_codelabs.html">
+
+    <link rel="import" href="./step.ja-jp.html" id="ja-jp">
+    <link rel="import" href="./step.en-us.html" id="en-us">
 
     <style is="custom-style">
     .material-icons {
       color: rgba(140, 140, 140, 1);
+    }
+    div.sample-input-01-blue {
+      background-color:rgb(237, 244, 255);
+      border-left: 4px solid #94BAF9;
+      padding:0.4em;
+      margin:1.0em;
+    }
+    paper-button.blue {
+      color: var(--paper-light-blue-500);
+      --paper-button-flat-focus-color: var(--paper-light-blue-50);
+    }
+    paper-dialog#modal {
+      width:50%;
     }
     div.sample-input-01-blue {
       background-color:rgb(237, 244, 255);
@@ -53,6 +70,15 @@
 
   <body unresolved>
     <container id="steps"></container>
+
+    <paper-dialog id="modal" modal>
+      <p class="langdescription">Please select your preferred language.</p>
+      <p class="selectlang"></p>
+      <div class="buttons">
+        <!--paper-button dialog-confirm autofocus>Tap me to close</paper-button-->
+      </div>
+    </paper-dialog>
+
     <script src="js/main.js"></script>
     <script src="js/webaudio-demo.js"></script>
     <script src="register_sw.js"></script>
