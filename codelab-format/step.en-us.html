@@ -211,13 +211,14 @@ function LoadSample(ctx, url) {
       </codelab-article>
 
       <!-- 6 -->
-      <codelab-article step_label="ディレイを適用する" duration="5:00">
-        <p>「オーディオファイルを鳴らす」よりも眺めのオーディオファイルで動作させてみます。<br><a href="contents/loop.wav"><span class="input-font">loop.wav</span></a> をダウンロードして Chrome Dev Editor の左ペイン内のプロジェクト名（ここでは test_webaudioapi）にドロップしてください。</p>
+      <codelab-article step_label="Applying Delay Effect" duration="5:00">
+        <p>Using audio file that has long duration than audio file that is used at previous step.<br>
+          So, please download <a href="contents/loop.wav"><span class="input-font">loop.wav</span></a>, and  drop the downloaded file into "Project name("test_webaudioapi" in here) area" of left pane of Chrome Dev Editor.</p>
         <div class="flex-center">
           <img src="./images/webaudio-02.png" width="580" class="bordered">
         </div>
 
-        <p>次に、前の Step で追加したコードを <span class="input-font">index.html</span> から削除してください。まず最初に HTML を追記します。</p>
+        <p>Next, delete code added in previous step from <span class="input-font">index.html</span>, and add HTML code below to <span class="input-font">index.html</span> at first.</p>
         <codelab-snippet>
 &lt;button id="playsound" disabled>Play&lt;/button>&lt;br/>
 &lt;table>
@@ -227,23 +228,23 @@ function LoadSample(ctx, url) {
   &lt;tr>&lt;td>Mix : &lt;/td>&lt;td>&lt;input type="text" size="8" id="mix" value="0.4"/>&lt;/td>&lt;/tr>
 &lt;/table></codelab-snippet>
         
-        <p>続いて、以下のような Node Graph を作成します。</p>
+        <p>At this step, diagram below is the target Node Graph to create.</p>
         <div class="flex-center">
           <img src="./images/delay1.png" class="bordered">
         </div>
 
-        <p class="bottom5px">新しい言葉が出て来たのでその説明です。</p>
+        <p class="bottom5px">Explanation for new words that has just appeared.</p>
         <ul class="top">
-          <li><span class="input-font">Dry</span> ： 入力した原音をそのままの出力</li>
-          <li><span class="input-font">Wet</span> ： 入力した原音にエフェクトをかけた出力</li>
-          <li><span class="input-font">エフェクト</span> ： 原音とは異なった音に変化させること。例えば時間をずらすディレイ、響きを加えるエコー、リバーブなどがあります。</li>
+          <li><span class="input-font">Dry</span> ： A sound that is originaly input.</li>
+          <li><span class="input-font">Wet</span> ： A sound that is applied audio effect to original input.</li>
+          <li><span class="input-font">Audio Effect</span> ： Creating different sound by applying something. For example, Delay is one of the audio effect that records an input signal to an audio storage medium, and then plays it back after a period of time, Reverb is also one of the audio effect that is the persistence of sound after a sound is produced.</li>
         </ul>
 
-        <p class="bottom5px">それぞれの役割。</p>
+        <p class="bottom5px">Roles of these nodes</p>
         <ul class="top">
-          <li><span class="input-font">Gain(Dry)</span> と <span class="input-font">Gain(Wet)</span> ： 入力した原音とエフェクトをかけた音をMixする割合を調整します</li>
-          <li><span class="input-font">Delay</span> ： 入力した原音の再生タイミングを遅らせます</li>
-          <li><span class="input-font">Gain(Feedback)</span> ： <span class="input-font">Delay</span> で再生タイミングを遅らせた出力の音量を絞り、再び <span class="input-font">Delay</span> に入力します</li>
+          <li><span class="input-font">Gain(Dry)</span> and <span class="input-font">Gain(Wet)</span> : Control the ratio of original sound and audio effected sound.</li>
+          <li><span class="input-font">Delay</span> ： Playback sound after some duration.</li>
+          <li><span class="input-font">Gain(Feedback)</span> ： Feedback delay effected sound to original source.</li>
         </ul>
         
         <codelab-snippet>
@@ -281,16 +282,16 @@ function LoadSample(ctx, url) {
   }
 &lt;/script></codelab-snippet> 
 
-        <p class="bottom5px">Node Graph の説明です。</p>
+        <p class="bottom5px">Explanation of Node Graph.</p>
         <ul class="top">
-          <li>入力を <span class="input-font">Delay</span> と <span class="input-font">Gain(Dry)</span>(Dry側のGain) に接続</li>
-          <li><span class="input-font">Delay</span> からの出力を <span class="input-font">Gain(Wet)</span>に接続</li>
-          <li><span class="input-font">Delay</span> からの出力を <span class="input-font">Gain(Feedback)</span>に接続</li>
-          <li><span class="input-font">Gain(Feedback)</span> からの出力を <span class="input-font">Delay</span>に接続</li>
+          <li>Connect input to <span class="input-font">Delay</span> and <span class="input-font">Gain(Dry)</span>(Dry側のGain) </li>
+          <li>Connect output from <span class="input-font">Delay</span> to <span class="input-font">Gain(Wet)</span></li>
+          <li>Connect output from <span class="input-font">Delay</span> to <span class="input-font">Gain(Feedback)</span></li>
+          <li>Connect output from <span class="input-font">Gain(Feedback)</span> to <span class="input-font">Delay</span></li>
         </ul>
 
-        <p class="bottom5px">最後に、ボタンを押した時の Event Hander を書きます。<br>
-「オーディオファイルを鳴らす」では HTML 内に Event Hander を書いていましたが、ここでは JavaScritp から Event Handler を指定する書き方をします。</p>
+        <p class="bottom5px">Finally, write event handler for clicking/tapping button.<br>
+          From the beginning of this codelab Event Handlers are write inside of HTML, but from here Event Handlers are written by JavaScript.</p>
         <codelab-snippet>
 &lt;script type="text/javascript">
   document.querySelector("button#playsound").addEventListener("click", function(event){
@@ -325,31 +326,31 @@ function LoadSample(ctx, url) {
   Setup();
 &lt;/script></codelab-snippet>
 
-        <p>以上の3つの追記後にアプリケーションを実行し、実行画面内の <button id="step6">Start</button> ボタンをクリックして音声が流れ、画面上のパラメータ、
-また ByPass チェックボックスにチェックをつけると ディレイ がからなくなれば完成です。</p>
+        <p>After adding 3 of above, run the application. Clicking/tapping <button id="step6">Start</button> button makes sound playing, and changing parameter and check/uncheck the chackbox of ByPass makes on/off delay effect.tapping button makes sound playing, and changing parameter and check/uncheck the checkbox of ByPass makes changing the depth and on/off of delay effect.</p>
         <ul class="top">
           <li><span class="input-font">Bypass: <input type="checkbox" id="step6bypass"></span></li> 
         </ul>
 
-        <p>以下の Node はディレイと同じように Node Graph の中に組み込むことでその効果が得られます。</p>
+        <p>Adding nodes below to obtain each audio effect by same way of adding delay node.</p>
         <ul class="top">
-          <li><span class="input-font">PannerNode</span> ： スピーカに音を割り振る</li> 
-          <li><span class="input-font">BiquadFilterNode</span> ： フィルタを行う（例えば、低音はカットする等）</li> 
-          <li><span class="input-font">GainNode</span> ： 振幅を調整する（音量調節）</li> 
+          <li><span class="input-font">PannerNode</span> ： to allocate sound to each speakers</li> 
+          <li><span class="input-font">BiquadFilterNode</span> ： fillter a sound （ e.g: low-pass, high-pass, etc）</li> 
+          <li><span class="input-font">GainNode</span> ： control amplitude （controlling volume）</li> 
         </ul>
 
       </codelab-article>
 
 
       <!-- 7 -->
-      <codelab-article step_label="音声ファイルを可視化する" duration="7:00">
-        <p>Web Audio API には入力された音声情報を可視化するためにスペクトラムを取得できる <span class="input-font">Analyser</span> という Node が用意されています。Analyserを使うと簡単に音を可視化することが可能です。まずは音声ファイルの可視化をしてみましょう。</p>
-        <p>ここでも「ディレイを適用する」で使用した<a href="contents/loop.wav"><span class="input-font">loop.wav</span></a> を使います。準備していない場合は、ダウンロードして Chrome Dev Editor の左ペイン内のプロジェクト名（ここでは test_webaudioapi）にドロップしてください。</p>
+      <codelab-article step_label="Visualizing a Sound File" duration="7:00">
+        <p><span class="input-font">Analyser node</span> is providing users to visualizing sound. With this node, visualizing sound is really easy. Let's visualize sound file. </p>
+        <p>Use <a href="contents/loop.wav"><span class="input-font">loop.wav</span></a>, which is used in previous step, to analyse sound.
+          <p>If you have not downloaded this file, please download from <a href="contents/loop.wav"><span class="input-font">here</span></a>, and drop the downloaded file into "Project name("test_webaudioapi" in here) area" of left pane of Chrome Dev Editor.</p>
         <div class="flex-center">
           <img src="./images/webaudio-02.png" width="580" class="bordered">
         </div>
 
-        <p>次に、前の Step で追加したコードを <span class="input-font">index.html</span> から削除してください。まず最初に HTML を追記します。</p>
+        <p>Next, delete code added in previous step from <span class="input-font">index.html</span>, and add HTML code below to <span class="input-font">index.html</span> at first.</p>
         <codelab-snippet>
 &lt;button id="playsound" disabled>Play&lt;/button>&lt;br/>
 &lt;table>
@@ -361,14 +362,14 @@ function LoadSample(ctx, url) {
 &lt;br/>&lt;br/>
 &lt;canvas id="graph" width="512" height="256">&lt;/canvas></codelab-snippet>
         
-        <p>入力を原音のまま可視化しますので Node Graph は以下になります。<br>
-「オーディオファイルを鳴らす」に <span class="input-font">BufferSource</span> から入力を数値化する <span class="input-font">Analyser</span> への接続を追加しています。
+        <p>Node Graph is below, since visualize input source without adding any audio effects.<br>
+          Adding <span class="input-font">Analyser</span> node after <span class="input-font">BufferSource</span> node.
         </p>
         <div class="flex-center">
           <img src="./images/analyser.png" class="bordered">
         </div>
 
-        <p class="bottom5px"><span class="input-font">Analyser</span> に接続してグラフ化する部分を追記します。</p>
+        <p class="bottom5px">Adding process of drawing a graph from numbers which is provided from <span class="input-font">Analyser</span> node.</p>
         <codelab-snippet>
 &lt;script type="text/javascript">
 var audioctx = new AudioContext();
@@ -430,15 +431,14 @@ Setup();
 &lt;/script></codelab-snippet>
 
         <p>
-          <code>DrawGraph()</code> で描画を行い、<code>DrawGraph()</code> で画面上のパラメータが変更されたときに随時描画に反映させています。描画の流れの説明です。</p>
+          Drawing by <code>DrawGraph()</code>, and also this method updated the drawing when parameter in the windows is updated. Explation for drawing.</p>
         <ul style="list-style-type: decimal">
-          <li><code>createAnalyser();</code> で <span class="input-font">analyser</span> Nodeを用意します</li>
-          <li><span class="input-font">fftSize</span> でFFT（フーリエ変換）のデータサイズを指定します</li>
-          <li><code>requestAnimationFrame();</code> でアニメーションのループを動かすことで、イテレーションする度に <span class="input-font">Analyser</span> から数値を取得し、
-            その数値を <span class="input-font">canvas</span> 上に描画することで音を可視化しています</li>
+          <li>Create <span class="input-font">analyser</span> by <code>createAnalyser();</code></li>
+          <li>Specify the data size of FFT as <span class="input-font">fftSize</span></li>
+          <li>Get values from <span class="input-font">Analyser</span> node with running animation loop by <code>requestAnimationFrame();</code> makes updating drawing on <span class="input-font">canvas</span> in each iteration to visualize values.</li>
         </ul>
 
-        <p class="bottom5px">最後に、ボタンを押した時の Event Hander を書きます。</p>
+        <p class="bottom5px">Finally, add event handler for when clicking/tapping button.</p>
         <codelab-snippet>
 &lt;script type="text/javascript">
 document.querySelector("button#playsound").addEventListener("click", function(event){
@@ -464,9 +464,8 @@ document.querySelector("input#min").addEventListener("change", Setup);
 document.querySelector("input#max").addEventListener("change", Setup);
 &lt;/script></codelab-snippet>
         
-        <p>以上の3つの追記後にアプリケーションを実行し、実行画面内の <button id="step7">Start</button> ボタンをクリックして音声が流れ、グラフが表示され、
-また <span class="input-font">Frequency/TimeDomain</span> 等のパラメータを更新することで、グラフの表示が変われば成功です。<br>
-          <span class="notice-01">※ ここでは、グラフをクリックすることで <span class="input-font">Frequency/TimeDomain</span>（グラフのタイプ）が変わります。</span> 
+        <p>After adding these 3 blocks of code, run the application. Clicking/tapping <button id="step7">Start</button> button to play songs and displaying graph in <span class="input-font">canvas</span>. And be updated graphs with changing parameters of <span class="input-font">Frequency/TimeDomain</span>. <br>
+          <span class="notice-01">※ In this page, clicking/tapping graph area makes changing the type(<span class="input-font">Frequency/TimeDomain</span>) of the graph.</span> 
         </p>
           
         <div class="flex-center">
@@ -476,15 +475,15 @@ document.querySelector("input#max").addEventListener("change", Setup);
       </codelab-article>
 
       <!-- 8 -->
-      <codelab-article step_label="マイク入力を可視化する" duration="6:00">
-        <p>次は音声ファイルではなく、コンピュータに接続されているマイクからリアルタイムに入力されてくる音を可視化してみます。</p>
+      <codelab-article step_label="Visualizing Mic Input" duration="6:00">
+        <p>In this step, visualizing the sound from Mic(realtime input).</p>
 
-        <p>前の Step の「音声ファイルを可視化する」にコードを追加します。<br/>
-        まずは <span class="input-font">index.html</span> に HTML を追記します。お好みの場所に追加してください。</p>
+        <p>Here, adding code to previous step. So do not delete the code, please.<br/>
+        Add HTML to <span class="input-font">index.html</span>. Adding HTML in where you want to add.(place is not important)</p>
         <codelab-snippet>
 &lt;button id="startmic">Start Mic&lt;/button>&lt;br/></codelab-snippet>
 
-        <p>次に JavaScript を追記します。こちらもお好みの場所への追記で構いません。</p>
+        <p>Next, adding JavaScript code.  Same as HTML that is added previously, place to add is not important, so please add them where you want to add.</p>
         <codelab-snippet>
 &lt;script type="text/javascript">
 var getUserMedia = navigator.getUserMedia ? 'getUserMedia' :
@@ -521,23 +520,22 @@ document.querySelector("button#startmic").addEventListener("click", function(eve
 });
 &lt;/script></codelab-snippet>
 
-        <p>マイク入力を原音のまま可視化しますので Node Graph は以下になります。</p>
+        <p>Node Graph is below, since visualize mic input without adding any audio effects.<br>
         <div class="flex-center">
           <img src="./images/analyser_mic.png" class="bordered">
         </div>
 
-        <p>動作の流れは以下の通りです。</p>
+        <p>Algorithm is below.</p>
         <ul style="list-style-type: decimal">
-          <li><code>getUserMedia();</code> でコンピュータに接続されたマイクを取得します</li>
-          <li><code>audioctx.createMediaStreamSource(stream)</code> で <span class="input-font">stream</span> から Audio Stream を取得します</li>
-          <li><code>micsrc.connect(audioctx.destination);</code> 取得した Audio Stream を <span class="input-font">analyser</span> に接続します</li>
-          <li><code>micsrc.connect(audioctx.destination);</code> 取得した Audio Stream を <span class="input-font">audioctx.destination</span> に接続し Node Graph を完成させます</li>
-          <li>ボタン操作により、マイクからの入力を可視化します</li>
+          <li>Get mic input by <code>getUserMedia();</code>.</li>
+          <li>Get Audio Stream from <span class="input-font">stream</span> by <code>audioctx.createMediaStreamSource(stream)</code></li>
+          <li>Connect Audio Stream that is just obtained to <span class="input-font">analyser</span> by <code>micsrc.connect(audioctx.destination);</code></li>
+          <li>Connect Audio Stream that is just obtained to <span class="input-font">audioctx.destination</span> by <code>micsrc.connect(audioctx.destination);</code> to complete Node Graph</li>
+          <li>Clicking/tapping button to start visualizing mic input.</li>
         </ul>
         
-        <p>アプリケーションを実行し、実行画面内の <button id="step8">Start Mic</button> ボタンをクリックしてマイクから入力した音声が流れ、グラフが表示され、
-また <span class="input-font">Frequency/TimeDomain</span> 等のパラメータを更新することで、グラフの表示が変われば成功です。<br>
-          <span class="notice-01">※ ここでは、グラフをクリックすることで <span class="input-font">Frequency/TimeDomain</span>（グラフのタイプ）が変わります。</span> 
+        <p>Run application by clicking/tapping <button id="step8">Start Mic</button>. Changing of parameters(e.g. <span class="input-font">Frequency/TimeDomain</span>) make graph style update.<br>
+          <span class="notice-01">※ in here, clicking/tapping graph makes changing the graph style.</span> 
         </p>
           
         <div class="flex-center">
@@ -548,26 +546,26 @@ document.querySelector("button#startmic").addEventListener("click", function(eve
 
 
       <!-- 9 -->
-      <codelab-article step_label="コンボリューションする" duration="5:00">
-        <p>次は音声ファイルにインパルス応答（Impulse Response）を収録した音声ファイルを畳み込む（convolition）ことで原音にエフェクトをかけます。<br>
-          Web Audio APIには <span class="input-font">ConvolverNode</span> が用意されていて、この Node をつかことで簡単に実現できます。
+      <codelab-article step_label="Using Convolution" duration="5:00">
+        <p>Adding audio effect by convoluting source audio input/file and impulse response audio file.<br>
+          It sounds difficult, but Web Audio API is providing <span class="input-font">ConvolverNode</span> by default to make convolution by really easy way.
         </p>
 
-        <p>インパルス応答を収録したファイル <a href="contents/ir/s1_r1_bd.wav"><span class="input-font">s1_r1_bd.wav</span></a> を使います。ダウンロードして Chrome Dev Editor の左ペイン内のプロジェクト名（ここでは test_webaudioapi）にドロップしてください。</p>
+        <p>Download impulse response audio file form here <a href="contents/ir/s1_r1_bd.wav"><span class="input-font">s1_r1_bd.wav</span></a>, and drop the downloaded file into "Project name("test_webaudioapi" in here) area" of left pane of Chrome Dev Editor.</p>
         <div class="flex-center">
           <img src="./images/webaudio-02.png" width="580" class="bordered">
         </div>
         <p>
-          <span class="notice-01">※ ここで利用するインパルス応答を収録した <span class="input-font">s1_r1_bd.wav</span> は<a href="http://www.acoustics.hut.fi/projects/poririrs/" taeget="_blank">ココ</a>からダウンロードしたもので非商用利用に限り無料で提供されています。</span> 
+          <span class="notice-01">※ The file just downloaded(<span class="input-font">s1_r1_bd.wav</span>) is only provided in <a href="http://www.acoustics.hut.fi/projects/poririrs/" taeget="_blank">here</a>, and is provided for free when the use case is in non-commerical. </span> 
         </p>
 
-        <p>まずは前の Step で追加したコードを <span class="input-font">index.html</span> から削除して、以下の HTML を追記します。お好みの場所に追加してください。</p>
+        <p>Delete code added in previous step from <span class="input-font">index.html</span>, and add new HTHL below to <span class="input-font">index.html</span>.(place is not important)</p>
         <codelab-snippet>
 &lt;button id="playsound" disabled>Start&lt;/button>&lt;br/>
 ReverbLevel : &lt;input type="range" id="revlevel" min="0" max="100" value="50"/>
   &lt;span id="revdisp">50&lt;/span></codelab-snippet>
 
-        <p class="bottom5px">次に JavaScript を追記します。</p>
+        <p class="bottom5px">Next, add JavaScript below</p>
         <codelab-snippet>
 &lt;script type="text/javascript">
 var audioctx = new AudioContext();
@@ -603,12 +601,12 @@ function LoadSample(ctx, idx) {
 }
 &lt;/script></codelab-snippet>
 
-        <p>音声ファイルの入力を <span class="input-font">Convolver Node</span> で中継して <span class="input-font">destination</span> に接続します。なので、Node Graph は以下になります。</p>
+        <p><span class="input-font">Convolver Node</span> is intermiating in between input source and <span class="input-font">destination</span>. So Node Graph here looks like this</p>
         <div class="flex-center">
           <img src="./images/convolver1.png" class="bordered">
         </div>
 
-        <p class="bottom5px">最後に、ボタンを押した時の Event Hander を書きます。</p>
+        <p class="bottom5px">Finally, write event handler for clicking/tapping button.<br>
         <codelab-snippet>
 &lt;script type="text/javascript">
 document.querySelector("button#playsound").addEventListener("click", function(event){
@@ -635,7 +633,7 @@ document.querySelector("input#revlevel").addEventListener("change", function(eve
 });
 &lt;/script></codelab-snippet>
 
-        <p>アプリケーションを実行し、実行画面内の <button id="step9">Start</button> <paper-progress value="0" id="step9progress" class="step9 middle hidden"></paper-progress> ボタンをクリックしてマイクから入力した音声が流れ、以下の Slider を動かすことでエフェクトの掛かり具合の調整が行えれば成功です。</p>
+        <p>Run application by clicking/tapping <button id="step9">Start</button> <paper-progress value="0" id="step9progress" class="step9 middle hidden"></paper-progress> button to playing sound from audio file. To change the audio effect level is available by updating slider.</p>
         <ul style="list-style-type: none">
           <li><span class="input-font">ReverbLevel : <input type="range" id="step9revlevel" min="0" max="100" value="50" style="width:200px;" class="middle"/><span id="revdisp">50</span></span></li>
         </ul>

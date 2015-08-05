@@ -219,7 +219,7 @@ function LoadSample(ctx, url) {
 
       <!-- 6 -->
       <codelab-article step_label="ディレイを適用する" duration="5:00">
-        <p>「オーディオファイルを鳴らす」よりも眺めのオーディオファイルで動作させてみます。<br><a href="contents/loop.wav"><span class="input-font">loop.wav</span></a> をダウンロードして Chrome Dev Editor の左ペイン内のプロジェクト名（ここでは test_webaudioapi）にドロップしてください。</p>
+        <p>「オーディオファイルを鳴らす」で使った音源よりも、よりも長いのオーディオファイルで動作させてみます。<br><a href="contents/loop.wav"><span class="input-font">loop.wav</span></a> をダウンロードして Chrome Dev Editor の左ペイン内のプロジェクト名（ここでは test_webaudioapi）にドロップしてください。</p>
         <div class="flex-center">
           <img src="./images/webaudio-02.png" width="580" class="bordered">
         </div>
@@ -296,8 +296,8 @@ function LoadSample(ctx, url) {
           <li><span class="input-font">Gain(Feedback)</span> からの出力を <span class="input-font">Delay</span>に接続</li>
         </ul>
 
-        <p class="bottom5px">最後に、ボタンを押した時の Event Hander を書きます。<br>
-「オーディオファイルを鳴らす」では HTML 内に Event Hander を書いていましたが、ここでは JavaScritp から Event Handler を指定する書き方をします。</p>
+        <p class="bottom5px">最後に、ボタンを押した時の Event Handler を書きます。<br>
+「オーディオファイルを鳴らす」では HTML 内に Event Handler を書いていましたが、ここでは JavaScritp から Event Handler を指定する書き方をします。</p>
         <codelab-snippet>
 &lt;script type="text/javascript">
   document.querySelector("button#playsound").addEventListener("click", function(event){
@@ -556,7 +556,7 @@ document.querySelector("button#startmic").addEventListener("click", function(eve
 
       <!-- 9 -->
       <codelab-article step_label="コンボリューションする" duration="5:00">
-        <p>次は音声ファイルにインパルス応答（Impulse Response）を収録した音声ファイルを畳み込む（convolition）ことで原音にエフェクトをかけます。<br>
+        <p>次は音声ファイルにインパルス応答（Impulse Response）を収録した音声ファイルを畳み込む（convolution）ことで原音にエフェクトをかけます。<br>
           Web Audio APIには <span class="input-font">ConvolverNode</span> が用意されていて、この Node をつかことで簡単に実現できます。
         </p>
 
@@ -642,7 +642,7 @@ document.querySelector("input#revlevel").addEventListener("change", function(eve
 });
 &lt;/script></codelab-snippet>
 
-        <p>アプリケーションを実行し、実行画面内の <button id="step9">Start</button> <paper-progress value="0" id="step9progress" class="step9 middle hidden"></paper-progress> ボタンをクリックしてマイクから入力した音声が流れ、以下の Slider を動かすことでエフェクトの掛かり具合の調整が行えれば成功です。</p>
+        <p>アプリケーションを実行し、実行画面内の <button id="step9">Start</button> <paper-progress value="0" id="step9progress" class="step9 middle hidden"></paper-progress> ボタンをクリックしてオーディオファイルが再生され、以下の Slider を動かすことでエフェクトの掛かり具合の調整が行えれば成功です。</p>
         <ul style="list-style-type: none">
           <li><span class="input-font">ReverbLevel : <input type="range" id="step9revlevel" min="0" max="100" value="50" style="width:200px;" class="middle"/><span id="revdisp">50</span></span></li>
         </ul>
